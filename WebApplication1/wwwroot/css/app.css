@@ -1,0 +1,7 @@
+﻿svg.node {
+    cursor:pointer;
+}
+
+svg.node:hover {
+    opacity:60%;
+}

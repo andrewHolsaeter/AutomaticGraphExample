@@ -55,6 +55,7 @@ namespace WebApplication1.Svg
             writer.WriteAttribute("y", this.BoundingBox.Bottom);
             writer.WriteAttribute("width", this.BoundingBox.Width);
             writer.WriteAttribute("height", this.BoundingBox.Height);
+            writer.WriteAttribute("class", "node");
             //writer.WriteAttribute("onclick", $"Edit('{this.Id}', {this.BoundingBox.RightTop})");
             writer.WriteAttribute("onclick", $"Add('{this.Id}')");
 

@@ -72,24 +72,22 @@ namespace WebApplication1.Pages
             var doc = new Diagram(drawingGraph);
             doc.Run();
             //System.Console.WriteLine(doc.ToString());
-            TextCopy.ClipboardService.SetText(doc.ToString());
+            //TextCopy.ClipboardService.SetText(doc.ToString());
 
             SvgDomElement = new HtmlString(doc.ToString());
         }
 
         public async Task<IActionResult> OnGetAsync()
         {
-            var x = 3;
             return Page();
         }
 
         public ActionResult OnPostSend(string subject_id)
         {
-            var subject = subject_id;
             var time = DateTime.Now.ToString();
             drawingGraph.AddNode(new ComponentNode(time));
             drawingGraph.AddEdge(subject_id, "New Node", time);
-
+            
             var doc = new Diagram(drawingGraph);
             doc.Run();
             SvgDomElement = new HtmlString(doc.ToString());
