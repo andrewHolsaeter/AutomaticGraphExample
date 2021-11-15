@@ -85,7 +85,10 @@ namespace WebApplication1.Pages
         public ActionResult OnPostSend(string subject_id)
         {
             var time = DateTime.Now.ToString();
-            drawingGraph.AddNode(new ComponentNode(time));
+            var comp_node = new ComponentNode(time);
+            comp_node.SvgElement.BackgroundColor = Color.Teal;
+
+            drawingGraph.AddNode(comp_node);
             
             if (subject_id != null)
             {
