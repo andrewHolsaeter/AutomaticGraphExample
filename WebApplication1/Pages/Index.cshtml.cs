@@ -86,7 +86,12 @@ namespace WebApplication1.Pages
         {
             var time = DateTime.Now.ToString();
             drawingGraph.AddNode(new ComponentNode(time));
-            drawingGraph.AddEdge(subject_id, "New Node", time);
+            
+            if (subject_id != null)
+            {
+                // Add edge/connection if subject id is passed in
+                drawingGraph.AddEdge(subject_id, "New Node", time);
+            }
             
             var doc = new Diagram(drawingGraph);
             doc.Run();
