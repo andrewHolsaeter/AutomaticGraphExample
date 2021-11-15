@@ -2,12 +2,50 @@
 @model IndexModel
 @{
     ViewData["Title"] = "Home page";
-    
+
 }
+
+@Html.AntiForgeryToken()
 
 <div class="text-center">
     <h1 class="display-4">Welcome</h1>
     <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
 </div>
 
-<div class="svg-wrapper">@Model.SvgDomElement</div>
+<button class="btn btn-success" onclick="Add()">Add Node</button>
+<hr />
+<div id="svg-wrapper">@Model.SvgDomElement</div>
+
+<script>
+    function Add() {
+        console.log("Adding");
+
+        $.ajax({
+            type: "POST",
+            url: "/?handler=Send",
+            beforeSend: function (xhr) {
+                xhr.setRequestHeader("XSRF-TOKEN",
+                    $('input:hidden[name="__RequestVerificationToken"]').val());
+            },
+            contentType: "application/json; charset=utf-8",
+            dataType: "html",
+            success: function (response) {
+                $("#svg-wrapper").html(response);
+                /*
+                var dvItems = $("#dvPostItems");
+                dvItems.empty();
+                $.each(response, function (i, item) {
+                    var $tr = $('<li>').append(item).appendTo(dvItems);
+                });
+                */
+            },
+            failure: function (response) {
+                alert(response);
+            }
+        });
+    }
+
+    function Edit(el, pos) {
+        console.log(el, pos);
+    };
+</script>

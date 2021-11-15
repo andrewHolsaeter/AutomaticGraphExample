@@ -16,14 +16,13 @@ namespace WebApplication1.Pages
         private readonly ILogger<IndexModel> _logger;
         public HtmlString SvgDomElement { get; set; }
 
+        public Graph drawingGraph { get; set; }
+
         public IndexModel(ILogger<IndexModel> logger)
         {
             _logger = logger;
-        }
 
-        public async Task<IActionResult> OnGetAsync()
-        {
-            var drawingGraph = new Graph();
+            drawingGraph = new Graph();
 
             drawingGraph.AddNode(new ComponentNode("Foo"));
             drawingGraph.AddNode(new ComponentNode("Bar", "Bar Component", "[Azure Functions]", "This is the Bar component, really really important!"));
@@ -43,7 +42,6 @@ namespace WebApplication1.Pages
             subGraph.AddNode(drawingGraph.FindNode("Bar"));
             subGraph.AddNode(drawingGraph.FindNode("Component01"));
             drawingGraph.RootSubgraph.AddSubgraph(subGraph);
-
 
             var labels = new List<Svg.Label> {
                 new Svg.Label("Component Nr. 9") {
@@ -77,8 +75,22 @@ namespace WebApplication1.Pages
             TextCopy.ClipboardService.SetText(doc.ToString());
 
             SvgDomElement = new HtmlString(doc.ToString());
+        }
 
+        public async Task<IActionResult> OnGetAsync()
+        {
             return Page();
+        }
+
+        public ActionResult OnPostSend()
+        {
+            drawingGraph.AddNode(new ComponentNode(DateTime.Now.ToString()));
+
+            var doc = new Diagram(drawingGraph);
+            doc.Run();
+            SvgDomElement = new HtmlString(doc.ToString());
+
+            return Content(SvgDomElement.Value);
         }
     }
 }
