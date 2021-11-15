@@ -71,7 +71,7 @@ namespace WebApplication1.Pages
 
             var doc = new Diagram(drawingGraph);
             doc.Run();
-            System.Console.WriteLine(doc.ToString());
+            //System.Console.WriteLine(doc.ToString());
             TextCopy.ClipboardService.SetText(doc.ToString());
 
             SvgDomElement = new HtmlString(doc.ToString());
@@ -79,12 +79,16 @@ namespace WebApplication1.Pages
 
         public async Task<IActionResult> OnGetAsync()
         {
+            var x = 3;
             return Page();
         }
 
-        public ActionResult OnPostSend()
+        public ActionResult OnPostSend(string subject_id)
         {
-            drawingGraph.AddNode(new ComponentNode(DateTime.Now.ToString()));
+            var subject = subject_id;
+            var time = DateTime.Now.ToString();
+            drawingGraph.AddNode(new ComponentNode(time));
+            drawingGraph.AddEdge(subject_id, "New Node", time);
 
             var doc = new Diagram(drawingGraph);
             doc.Run();

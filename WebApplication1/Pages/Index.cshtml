@@ -17,8 +17,8 @@
 <div id="svg-wrapper">@Model.SvgDomElement</div>
 
 <script>
-    function Add() {
-        console.log("Adding");
+    function Add(subject_id) {
+        console.log("Adding. Subject id: " + subject_id);
 
         $.ajax({
             type: "POST",
@@ -27,7 +27,7 @@
                 xhr.setRequestHeader("XSRF-TOKEN",
                     $('input:hidden[name="__RequestVerificationToken"]').val());
             },
-            contentType: "application/json; charset=utf-8",
+            data: { subject_id : subject_id },
             dataType: "html",
             success: function (response) {
                 $("#svg-wrapper").html(response);
